@@ -30,11 +30,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        //cell.name.text = DisplayedPokemonArray[indexPath.row].name
-       // cell.id.text = "#" + String(format: "%03d", DisplayedPokemonArray[indexPath.row].id)
-        //let url = self.DisplayedPokemonArray[indexPath.row].image
-        //cell.pokemonImage.load(url: URL(string: url)!)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
+        cell.title.text = movieArray[indexPath.row].title
+        cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MMM/dd/yyy")
+        let url = self.movieArray[indexPath.row].poster
+        cell.poster.load(url: URL(string: url!)!)
         
         return cell
     }
@@ -42,27 +42,20 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
 
 //MARK: Search Bar Delegate Methods
 extension SearchViewController: UISearchBarDelegate {
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        /**
-         self.DisplayedPokemonArray = pokemonArray.filter { (pokemon) -> Bool in
-             pokemon.name.lowercased().contains(searchBar.text!.lowercased())
-         }
-         pokemonTableView.reloadData()
-         pokemonCollectionView.reloadData()
-         */
+        
+        
+         MovieTableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
-            /**
-                    self.DisplayedPokemonArray = self.pokemonArray
-                    pokemonTableView.reloadData()
-                    pokemonCollectionView.reloadData()
+                    MovieTableView.reloadData()
                     
                     DispatchQueue.main.async {
                         searchBar.resignFirstResponder()
                     }
-             */
         }
     }
 }
@@ -79,5 +72,16 @@ extension UIImageView {
                 }
             }
         }
+    }
+}
+
+//MARK: Date-to-String converter
+extension Date
+{
+    func toString( dateFormat format  : String ) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
     }
 }
