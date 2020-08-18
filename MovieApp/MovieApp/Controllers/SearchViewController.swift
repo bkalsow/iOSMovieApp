@@ -48,7 +48,7 @@ extension SearchViewController: UISearchBarDelegate {
         
          MovieTableView.reloadData()
     }
-    
+    /**
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text?.count == 0 {
                     MovieTableView.reloadData()
@@ -57,7 +57,7 @@ extension SearchViewController: UISearchBarDelegate {
                         searchBar.resignFirstResponder()
                     }
         }
-    }
+    } */
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
