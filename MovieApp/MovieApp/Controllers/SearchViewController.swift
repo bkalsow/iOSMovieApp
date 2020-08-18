@@ -76,6 +76,9 @@ extension SearchViewController: UISearchBarDelegate {
                        print("Search error: " + errorMessage)
                      }
                    }
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
             movieArray = movieManager.moviesResult
         } else {
             let alert = UIAlertController(title: "Please enter a search term", message: "", preferredStyle: .alert)

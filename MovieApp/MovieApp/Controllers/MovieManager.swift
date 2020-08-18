@@ -13,12 +13,15 @@ class MovieManager {
   typealias JSONDictionary = [String: Any]
   typealias QueryResult = ([Movie]?, String) -> Void
   
-  func getSearchResults(searchTerm: String, completion: @escaping QueryResult) {
+    func getSearchResults(searchTerm: String, completion: @escaping QueryResult, page: Int = 1) {
 
+    print("fetching search results for " + searchTerm)
     dataTask?.cancel()
-    
-    if var urlComponents = URLComponents(string: "https://itunes.apple.com/search") {
-      urlComponents.query = "media=music&entity=song&term=\(searchTerm)"
+    //https://api.themoviedb.org/3/search/movie?api_key=2696829a81b1b5827d515ff121700838&query=batman&page=1
+    if var urlComponents = URLComponents(string: "https://api.themoviedb.org/3/search/movie") {
+      urlComponents.query = "api_key=2696829a81b1b5827d515ff121700838&query=\(searchTerm)&page=\(page)"
+        
+        print("Query " + urlComponents.string!)
       
       guard let url = urlComponents.url else {
         return
