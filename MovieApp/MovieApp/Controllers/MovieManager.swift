@@ -8,7 +8,7 @@ class MovieManager {
 
   var dataTask: URLSessionDataTask?
   var errorMessage = ""
-  var movies: [Movie] = []
+  var moviesResult: [Movie] = []
   
   typealias JSONDictionary = [String: Any]
   typealias QueryResult = ([Movie]?, String) -> Void
@@ -39,7 +39,7 @@ class MovieManager {
           self?.updateSearchResults(data)
           
           DispatchQueue.main.async {
-            completion(self?.movies, self?.errorMessage ?? "")
+            completion(self?.moviesResult, self?.errorMessage ?? "")
           }
         }
       }
@@ -50,7 +50,7 @@ class MovieManager {
   
   private func updateSearchResults(_ data: Data) {
     var response: JSONDictionary?
-    movies.removeAll()
+    moviesResult.removeAll()
     
     do {
       response = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary
@@ -76,7 +76,7 @@ class MovieManager {
         } else {
           errorMessage += "Problem parsing MovieDictionary\n"
         }
-          movies.append(movie)
+          moviesResult.append(movie)
           index += 1
     }
   }

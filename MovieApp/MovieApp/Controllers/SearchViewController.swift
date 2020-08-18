@@ -58,6 +58,30 @@ extension SearchViewController: UISearchBarDelegate {
                     }
         }
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        if searchBar.text!.count > 0 {
+            let movieManager = MovieManager()
+            movieManager.getSearchResults(searchTerm: searchBar.text!) { [weak self] results, errorMessage in
+                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                     
+                     if let results = results {
+                       self?.movieArray = results
+                       self?.MovieTableView.reloadData()
+                       self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
+                     }
+                     
+                     if !errorMessage.isEmpty {
+                       print("Search error: " + errorMessage)
+                     }
+                   }
+            movieArray = movieManager.moviesResult
+        } else {
+            let alert = UIAlertController(title: "Please enter a search term", message: "", preferredStyle: .alert)
+            present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 //MARK: Image View Methods
