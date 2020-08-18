@@ -11,14 +11,14 @@ import CoreData
 
 class SearchViewController: UIViewController {
 
+    @IBOutlet weak var MovieTableView: UITableView!
+    
     var movieArray = [Movie]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
 }
 
 //MARK: Tableview Data Source Methods

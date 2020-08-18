@@ -89,8 +89,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="Ftg-qD-kWx" id="AAy-yh-Quk"/>
-                                    <outlet property="delegate" destination="Ftg-qD-kWx" id="Tkc-b5-ltw"/>
+                                    <outlet property="dataSource" destination="Ftg-qD-kWx" id="d86-ye-bWI"/>
+                                    <outlet property="delegate" destination="Ftg-qD-kWx" id="04g-Am-Fgc"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -105,7 +105,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="c2c-qI-23w"/>
                     <connections>
-                        <outlet property="pokemonTableView" destination="irA-F2-heL" id="Bam-Qn-cJ2"/>
+                        <outlet property="MovieTableView" destination="irA-F2-heL" id="3z4-Gr-nTg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qx-cD-YTK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
