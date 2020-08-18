@@ -30,11 +30,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PokemonCell", for: indexPath) as! movieTableCell
-        cell.name.text = DisplayedPokemonArray[indexPath.row].name
-        cell.id.text = "#" + String(format: "%03d", DisplayedPokemonArray[indexPath.row].id)
-        let url = self.DisplayedPokemonArray[indexPath.row].image
-        cell.pokemonImage.load(url: URL(string: url)!)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        //cell.name.text = DisplayedPokemonArray[indexPath.row].name
+       // cell.id.text = "#" + String(format: "%03d", DisplayedPokemonArray[indexPath.row].id)
+        //let url = self.DisplayedPokemonArray[indexPath.row].image
+        //cell.pokemonImage.load(url: URL(string: url)!)
         
         return cell
     }
