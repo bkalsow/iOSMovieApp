@@ -12,12 +12,17 @@ import CoreData
 class SearchViewController: UIViewController {
 
     @IBOutlet weak var MovieTableView: UITableView!
+    @IBOutlet weak var RecentSearchesTable: UITableView!
     
     var movieArray = [Movie]()
     var last10Searches = [String]()
     
+    let movieManager = MovieManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        RecentSearchesTable.isHidden = true
+        MovieTableView.isHidden = false
         // Do any additional setup after loading the view.
     }
 }
@@ -45,11 +50,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        //TODO
+        RecentSearchesTable.isHidden = false
+        MovieTableView.isHidden = true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
+        RecentSearchesTable.isHidden = true
+        MovieTableView.isHidden = false
         
          MovieTableView.reloadData()
     }
@@ -74,7 +81,7 @@ extension SearchViewController: UISearchBarDelegate {
                 last10Searches.append(searchBar.text!)
             }
             print(last10Searches)
-            let movieManager = MovieManager()
+            
             movieManager.getSearchResults(searchTerm: searchBar.text!) { [weak self] results, errorMessage in
                      UIApplication.shared.isNetworkActivityIndicatorVisible = false
                      

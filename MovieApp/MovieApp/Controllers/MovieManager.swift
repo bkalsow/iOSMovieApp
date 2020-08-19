@@ -1,5 +1,6 @@
 
 import Foundation
+import CoreData
 
 class MovieManager {
 
@@ -34,9 +35,7 @@ class MovieManager {
           let data = data,
           let response = response as? HTTPURLResponse,
           response.statusCode == 200 {
-            //Getting nil while unwrapping data, why?
-            let dataString = data.toString()!
-            print(dataString)
+
             print("Attempting to update results")
             self?.updateSearchResults(data)
           
