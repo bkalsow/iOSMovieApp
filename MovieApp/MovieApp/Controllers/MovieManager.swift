@@ -1,6 +1,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class MovieManager {
 
@@ -10,6 +11,8 @@ class MovieManager {
   var dataTask: URLSessionDataTask?
   var errorMessage = ""
   var moviesResult: [Movie] = []
+    
+    
   
   typealias JSONDictionary = [String: Any]
   typealias QueryResult = ([Movie]?, String) -> Void
@@ -36,7 +39,6 @@ class MovieManager {
           let response = response as? HTTPURLResponse,
           response.statusCode == 200 {
 
-            print("Attempting to update results")
             self?.updateSearchResults(data)
           
           DispatchQueue.main.async {
@@ -50,36 +52,39 @@ class MovieManager {
   }
   
   private func updateSearchResults(_ data: Data) {
-    print("updating results")
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let managedContext = appDelegate.persistentContainer.viewContext
+
     var response: JSONDictionary?
     moviesResult.removeAll()
-    print("removed previous results")
     do {
       response = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary
     } catch let parseError as NSError {
       errorMessage += "JSONSerialization error: \(parseError.localizedDescription)\n"
       return
     }
-    
     guard let array = response!["results"] as? [Any] else {
       errorMessage += "Dictionary does not contain results key\n"
       return
     }
     
     var index = 0
-    
-    for MovieDictionary in array {
-        let movie = Movie()
-        if let MovieDictionary = MovieDictionary as? JSONDictionary {
-            movie.title = MovieDictionary["title"] as? String
-            movie.releaseDate = MovieDictionary["release_date"] as? Date
-            movie.poster = MovieDictionary["poster_path"] as? String
-            movie.movieOverview = MovieDictionary["overview"] as? String
+    //FAILS AFTER HERE
+    print("attempting to parse MovieDictionary")
+    for movieDictionary in array {
+        
+        if let MovieDictionary = movieDictionary as? JSONDictionary {
+                       let newMovie = Movie(context: managedContext)
+            newMovie.title = MovieDictionary["title"] as? String
+            newMovie.releaseDate = MovieDictionary["release_date"] as? Date
+            newMovie.poster = MovieDictionary["poster_path"] as? String
+            newMovie.movieOverview = MovieDictionary["overview"] as? String
+            
+            moviesResult.append(newMovie)
+            index += 1
         } else {
           errorMessage += "Problem parsing MovieDictionary\n"
         }
-          moviesResult.append(movie)
-          index += 1
     }
   }
 }
