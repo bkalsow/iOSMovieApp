@@ -37,7 +37,7 @@ class MovieManager {
             //Getting nil while unwrapping data, why?
             let dataString = data.toString()!
             print(dataString)
-            print("Attemptying to update results")
+            print("Attempting to update results")
             self?.updateSearchResults(data)
           
           DispatchQueue.main.async {
