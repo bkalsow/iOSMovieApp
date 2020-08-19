@@ -44,6 +44,10 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
 //MARK: Search Bar Delegate Methods
 extension SearchViewController: UISearchBarDelegate {
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        //TODO
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         
         

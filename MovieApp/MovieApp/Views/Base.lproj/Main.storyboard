@@ -93,13 +93,47 @@
                                     <outlet property="delegate" destination="Ftg-qD-kWx" id="04g-Am-Fgc"/>
                                 </connections>
                             </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dJD-Zv-Wx2" userLabel="RecentSearchesTable">
+                                <rect key="frame" x="0.0" y="144" width="414" height="189"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentSearchesCell" id="jDw-Ga-Z6W" userLabel="RecentSearchesTableCell" customClass="RecentSearchesTableCell" customModule="MovieApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jDw-Ga-Z6W" id="4nB-PG-ZYx">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyy-aV-fDX" userLabel="SearchTerm">
+                                                    <rect key="frame" x="47" y="11" width="347" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="searchTerm" destination="oyy-aV-fDX" id="LPy-ZD-aOb"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Ftg-qD-kWx" id="FnX-ab-VT9"/>
+                                    <outlet property="delegate" destination="Ftg-qD-kWx" id="ecr-YI-RXP"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="trailing" secondItem="5mh-H5-NyM" secondAttribute="trailing" id="E9x-5z-5GK"/>
+                            <constraint firstItem="dJD-Zv-Wx2" firstAttribute="leading" secondItem="5Er-t4-6m1" secondAttribute="leading" id="H9I-xh-ane"/>
+                            <constraint firstItem="5mh-H5-NyM" firstAttribute="bottom" secondItem="dJD-Zv-Wx2" secondAttribute="bottom" constant="529" id="NWC-gf-87Z"/>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="leading" secondItem="5mh-H5-NyM" secondAttribute="leading" id="Q3p-eE-HU5"/>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="top" secondItem="5mh-H5-NyM" secondAttribute="top" id="XFn-cx-eC4"/>
+                            <constraint firstItem="dJD-Zv-Wx2" firstAttribute="top" secondItem="5Er-t4-6m1" secondAttribute="bottom" id="lgT-Jd-rST"/>
                             <constraint firstItem="irA-F2-heL" firstAttribute="top" secondItem="5Er-t4-6m1" secondAttribute="bottom" id="ozy-2r-SCs"/>
+                            <constraint firstItem="dJD-Zv-Wx2" firstAttribute="centerX" secondItem="rQB-iq-TTS" secondAttribute="centerX" id="t98-Og-HVI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5mh-H5-NyM"/>
                     </view>

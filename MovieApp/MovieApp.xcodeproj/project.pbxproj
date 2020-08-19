@@ -17,6 +17,7 @@
 		CDB318F524EC264B006B43EB /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318F424EC264B006B43EB /* MovieTableViewCell.swift */; };
 		CDB318F724EC2727006B43EB /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318F624EC2727006B43EB /* Movie.swift */; };
 		CDB318FB24EC3563006B43EB /* MovieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318FA24EC3563006B43EB /* MovieManager.swift */; };
+		CDB318FD24ED9C7A006B43EB /* RecentSearchesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318FC24ED9C7A006B43EB /* RecentSearchesTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		CDB318F424EC264B006B43EB /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		CDB318F624EC2727006B43EB /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		CDB318FA24EC3563006B43EB /* MovieManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieManager.swift; sourceTree = "<group>"; };
+		CDB318FC24ED9C7A006B43EB /* RecentSearchesTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchesTableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				CDB318DE24EC2038006B43EB /* Main.storyboard */,
 				CDB318F424EC264B006B43EB /* MovieTableViewCell.swift */,
+				CDB318FC24ED9C7A006B43EB /* RecentSearchesTableCell.swift */,
 				CDB318E624EC2038006B43EB /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -174,6 +177,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDB318FD24ED9C7A006B43EB /* RecentSearchesTableCell.swift in Sources */,
 				CDB318F524EC264B006B43EB /* MovieTableViewCell.swift in Sources */,
 				CDB318D924EC2038006B43EB /* AppDelegate.swift in Sources */,
 				CDB318F724EC2727006B43EB /* Movie.swift in Sources */,
