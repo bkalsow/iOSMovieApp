@@ -14,6 +14,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var MovieTableView: UITableView!
     
     var movieArray = [Movie]()
+    var last10Searches = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,13 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         if searchBar.text!.count > 0 {
+            if last10Searches.count < 10 {
+                last10Searches.append(searchBar.text!)
+            } else {
+                last10Searches.removeFirst()
+                last10Searches.append(searchBar.text!)
+            }
+            print(last10Searches)
             let movieManager = MovieManager()
             movieManager.getSearchResults(searchTerm: searchBar.text!) { [weak self] results, errorMessage in
                      UIApplication.shared.isNetworkActivityIndicatorVisible = false

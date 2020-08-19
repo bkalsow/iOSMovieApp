@@ -15,18 +15,14 @@ class MovieManager {
   
     func getSearchResults(searchTerm: String, completion: @escaping QueryResult, page: Int = 1) {
 
-    print("fetching search results for " + searchTerm)
     dataTask?.cancel()
     //https://api.themoviedb.org/3/search/movie?api_key=2696829a81b1b5827d515ff121700838&query=batman&page=1
     if var urlComponents = URLComponents(string: "https://api.themoviedb.org/3/search/movie") {
       urlComponents.query = "api_key=2696829a81b1b5827d515ff121700838&query=\(searchTerm)&page=\(page)"
-        
-        print("Query " + urlComponents.string!)
       
       guard let url = urlComponents.url else {
         return
       }
-    
       dataTask = defaultSession.dataTask(with: url) { [weak self] data, response, error in
         defer {
           self?.dataTask = nil
@@ -38,8 +34,11 @@ class MovieManager {
           let data = data,
           let response = response as? HTTPURLResponse,
           response.statusCode == 200 {
-          
-          self?.updateSearchResults(data)
+            //Getting nil while unwrapping data, why?
+            let dataString = data.toString()!
+            print(dataString)
+            print("Attemptying to update results")
+            self?.updateSearchResults(data)
           
           DispatchQueue.main.async {
             completion(self?.moviesResult, self?.errorMessage ?? "")
@@ -52,9 +51,10 @@ class MovieManager {
   }
   
   private func updateSearchResults(_ data: Data) {
+    print("updating results")
     var response: JSONDictionary?
     moviesResult.removeAll()
-    
+    print("removed previous results")
     do {
       response = try JSONSerialization.jsonObject(with: data, options: []) as? JSONDictionary
     } catch let parseError as NSError {
@@ -83,4 +83,10 @@ class MovieManager {
           index += 1
     }
   }
+}
+
+extension Data {
+    func toString() -> String? {
+        return String(data: self, encoding: .utf8)
+    }
 }
