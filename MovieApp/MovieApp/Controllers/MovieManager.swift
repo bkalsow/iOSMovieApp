@@ -52,8 +52,8 @@ class MovieManager {
   }
   
   private func updateSearchResults(_ data: Data) {
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let managedContext = appDelegate.persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    //let managedContext = AppDelegate.persistentContainer.viewContext
 
     var response: JSONDictionary?
     moviesResult.removeAll()
@@ -74,7 +74,7 @@ class MovieManager {
     for movieDictionary in array {
         
         if let MovieDictionary = movieDictionary as? JSONDictionary {
-                       let newMovie = Movie(context: managedContext)
+            let newMovie = Movie(context: context)
             newMovie.title = MovieDictionary["title"] as? String
             newMovie.releaseDate = MovieDictionary["release_date"] as? Date
             newMovie.poster = MovieDictionary["poster_path"] as? String
