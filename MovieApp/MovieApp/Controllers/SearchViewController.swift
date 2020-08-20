@@ -18,13 +18,19 @@ class SearchViewController: UIViewController {
     var last10Searches = [String]()
     
     let movieManager = MovieManager()
-    private static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w92"
+    //private static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w92"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         RecentSearchesTable.isHidden = true
         MovieTableView.isHidden = false
         // Do any additional setup after loading the view.
+    }
+    
+    func toggleView()
+    {
+        self.RecentSearchesTable.isHidden = !RecentSearchesTable.isHidden
+        self.MovieTableView.isHidden = !MovieTableView.isHidden
     }
 }
 
@@ -53,13 +59,11 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        RecentSearchesTable.isHidden = false
-        MovieTableView.isHidden = true
+        toggleView()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        RecentSearchesTable.isHidden = true
-        MovieTableView.isHidden = false
+        toggleView()
         
          MovieTableView.reloadData()
     }
@@ -76,8 +80,7 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        RecentSearchesTable.isHidden = true
-        MovieTableView.isHidden = false
+        toggleView()
         
         if searchBar.text!.count > 0 {
             if(last10Searches.contains(searchBar.text!))
