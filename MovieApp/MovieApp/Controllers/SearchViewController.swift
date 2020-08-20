@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
     var last10Searches = [String]()
     
     let movieManager = MovieManager()
+    private static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w92"
     
     override func viewDidLoad() {
         super.viewDidLoad()

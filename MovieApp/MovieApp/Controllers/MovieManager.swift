@@ -3,15 +3,16 @@ import Foundation
 import CoreData
 import UIKit
 
-class MovieManager {
+class MovieManager: UITableViewController {
 
   let defaultSession = URLSession(configuration: .default)
   
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
   var dataTask: URLSessionDataTask?
   var errorMessage = ""
   var moviesResult: [Movie] = []
-    
+  
     
   
   typealias JSONDictionary = [String: Any]
@@ -52,7 +53,7 @@ class MovieManager {
   }
   
   private func updateSearchResults(_ data: Data) {
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     //let managedContext = AppDelegate.persistentContainer.viewContext
 
     var response: JSONDictionary?
@@ -70,7 +71,6 @@ class MovieManager {
     
     var index = 0
     //FAILS AFTER HERE
-    print("attempting to parse MovieDictionary")
     for movieDictionary in array {
         
         if let MovieDictionary = movieDictionary as? JSONDictionary {
@@ -78,7 +78,7 @@ class MovieManager {
             newMovie.title = MovieDictionary["title"] as? String
             newMovie.releaseDate = MovieDictionary["release_date"] as? Date
             newMovie.poster = MovieDictionary["poster_path"] as? String
-            newMovie.movieOverview = MovieDictionary["overview"] as? String
+            newMovie.overview = MovieDictionary["overview"] as? String
             
             moviesResult.append(newMovie)
             index += 1
