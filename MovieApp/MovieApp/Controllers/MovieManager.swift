@@ -13,7 +13,7 @@ class MovieManager: UITableViewController {
   var errorMessage = ""
   var moviesResult: [Movie] = []
   
-    
+  private static let BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w92"
   
   typealias JSONDictionary = [String: Any]
   typealias QueryResult = ([Movie]?, String) -> Void
@@ -70,14 +70,15 @@ class MovieManager: UITableViewController {
     }
     
     var index = 0
-    //FAILS AFTER HERE
+
     for movieDictionary in array {
         
         if let MovieDictionary = movieDictionary as? JSONDictionary {
             let newMovie = Movie(context: context)
             newMovie.title = MovieDictionary["title"] as? String
             newMovie.releaseDate = MovieDictionary["release_date"] as? Date
-            newMovie.poster = MovieDictionary["poster_path"] as? String
+            let posterURL = MovieDictionary["poster_path"] as! String
+            newMovie.poster = MovieManager.BASE_IMAGE_URL + posterURL
             newMovie.overview = MovieDictionary["overview"] as? String
             
             moviesResult.append(newMovie)

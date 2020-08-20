@@ -39,7 +39,9 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
         cell.title.text = movieArray[indexPath.row].title
-        cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MMM/dd/yyy")
+        print(movieArray[indexPath.row].releaseDate as Any)
+        cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MM/dd/yyyy")
+        cell.overview.text = movieArray[indexPath.row].overview
         let url = self.movieArray[indexPath.row].poster
         cell.poster.load(url: URL(string: url!)!)
         
@@ -74,7 +76,16 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
+        RecentSearchesTable.isHidden = true
+        MovieTableView.isHidden = false
+        
         if searchBar.text!.count > 0 {
+            if(last10Searches.contains(searchBar.text!))
+            {
+                let search = searchBar.text!
+                last10Searches.remove(at: last10Searches.firstIndex(of: search)!)
+                last10Searches.append(searchBar.text!)
+            }
             if last10Searches.count < 10 {
                 last10Searches.append(searchBar.text!)
             } else {
@@ -85,7 +96,7 @@ extension SearchViewController: UISearchBarDelegate {
             
             movieManager.getSearchResults(searchTerm: searchBar.text!) { [weak self] results, errorMessage in
                      UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                     
+               
                      if let results = results {
                        self?.movieArray = results
                        self?.MovieTableView.reloadData()
