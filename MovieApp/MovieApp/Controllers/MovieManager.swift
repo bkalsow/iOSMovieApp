@@ -116,15 +116,23 @@ class MovieManager: UITableViewController {
                 let newMovie = Movie(context: context)
                 newMovie.title = MovieDictionary["title"] as? String
                 
-                //Use the date formatter to parse the release date
-                if let date = formatter.date(from: MovieDictionary["release_date"] as! String) {
-                    newMovie.releaseDate = date
+                //Check that the date isn't empty
+                let dateString = MovieDictionary["release_date"] as? String
+                if  dateString != nil {
+                    //Use the date formatter to parse the release date
+                    if let date = formatter.date(from: MovieDictionary["release_date"] as! String) {
+                        newMovie.releaseDate = date
+                    }
                 }
-                
-                let posterURL = MovieDictionary["poster_path"] as! String
-                newMovie.poster = MovieManager.BASE_IMAGE_URL + posterURL
-                newMovie.overview = MovieDictionary["overview"] as? String
-                
+                //check that the poster path isn't empty
+                let posterURL = MovieDictionary["poster_path"] as? String
+                if(posterURL == nil)
+                {
+                    
+                } else {
+                    newMovie.poster = MovieManager.BASE_IMAGE_URL + (posterURL)!
+                    newMovie.overview = MovieDictionary["overview"] as? String
+                }
                 //add the new movie to the result
                 moviesResult.append(newMovie)
                 index += 1

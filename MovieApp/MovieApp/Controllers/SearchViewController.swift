@@ -130,12 +130,18 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieTableViewCell
             
             cell.title.text = movieArray[indexPath.row].title
-            cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
+            if(movieArray[indexPath.row].releaseDate != nil) {
+                cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
+            } else {
+                cell.releaseDate.text = ""
+            }
             cell.overview.text = movieArray[indexPath.row].overview
             if(self.movieArray[indexPath.row].poster != nil)
             {
                 let url = self.movieArray[indexPath.row].poster
                 cell.poster.load(url: URL(string: url!)!)
+            } else {
+                cell.poster.image = UIImage(named: "ImageNotFound")
             }
             return cell
         } else {
