@@ -19,7 +19,7 @@ class MovieManager: UITableViewController {
     
     var dataTask: URLSessionDataTask?
     var errorMessage = ""
-    var maxPages = 0
+    var maxPages = 1
     
     //Store the results in an array
     var moviesResult: [Movie] = []
@@ -50,6 +50,8 @@ class MovieManager: UITableViewController {
             guard let url = urlComponents.url else {
                 return
             }
+            
+            print(url)
             dataTask = defaultSession.dataTask(with: url) { [weak self] data, response, error in
                 defer {
                     self?.dataTask = nil

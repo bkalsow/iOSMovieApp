@@ -253,6 +253,8 @@ extension SearchViewController: UISearchBarDelegate {
             let search = searchBar.text!
             updateLastSearches(search: search)
             
+            currentPage = 1
+            
             //get the search results for the query
             movieManager.getSearchResults(searchTerm: search, page: currentPage) { [weak self] results, errorMessage in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -262,9 +264,9 @@ extension SearchViewController: UISearchBarDelegate {
                         self?.movieArray = results
                         self?.MovieTableView.reloadData()
                         self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
-                        self?.currentPage = 1
                     }
                     
+                    self?.scrollToTop()
                 } else {
                     
                     //remove the last search because it wasn't successful
