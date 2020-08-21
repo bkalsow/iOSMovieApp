@@ -203,7 +203,6 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     alert.addAction(action)
                     
                     self!.present(alert, animated: true, completion: nil)
-                    print("Search error: ")
                 }
             }
         } else {
