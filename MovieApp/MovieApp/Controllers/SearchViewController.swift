@@ -21,7 +21,7 @@ class SearchViewController: UIViewController {
     var movieArray = [Movie]()
     var last10Searches = [String]()
     
-    var currentPage = 0
+    var currentPage = 1
     var lastSearch = ""
     
     //make a new movieManager to query the site
@@ -103,7 +103,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     if !errorMessage.isEmpty {
                         
                         //remove the last search because it wasn't successful
-                        self!.last10Searches.removeLast()
+                        self!.last10Searches.removeFirst()
                         
                         //alert the user that an error has occured
                         let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
@@ -185,12 +185,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     self?.MovieTableView.reloadData()
                     self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
                     self?.currentPage = 1
+                    self?.scrollToTop()
                 }
                 //if there's an error message, print it to the console
                 if !errorMessage.isEmpty {
                     
                     //remove the last search because it wasn't successful
-                    self!.last10Searches.removeLast()
+                    self!.last10Searches.removeFirst()
                     //alert the user
                     
                     let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
@@ -204,12 +205,24 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     self!.present(alert, animated: true, completion: nil)
                     print("Search error: " + errorMessage)
                 }
-                //self!.toggleView()
+                
+                
             }
         } else {
             print("Selected a cell in MovieTable")
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    private func scrollToTop() {
+        // 1
+        let topRow = IndexPath(row: 0,
+                               section: 0)
+                               
+        // 2
+        self.MovieTableView.scrollToRow(at: topRow,
+                                   at: .top,
+                                   animated: false)
     }
 }
 
@@ -248,17 +261,39 @@ extension SearchViewController: UISearchBarDelegate {
             movieManager.getSearchResults(searchTerm: search, page: currentPage) { [weak self] results, errorMessage in
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
-                if let results = results {
-                    self?.movieArray = results
-                    self?.MovieTableView.reloadData()
-                    self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
-                    self?.currentPage = 1
+                if(results?.count != 0) {
+                    if let results = results {
+                        self?.movieArray = results
+                        self?.MovieTableView.reloadData()
+                        self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
+                        self?.currentPage = 1
+                    }
+                    
+                } else {
+                    
+                    //remove the last search because it wasn't successful
+                    self!.last10Searches.removeFirst()
+                    
+                    //update UserDefaults
+                    self?.defaults.set(self?.last10Searches, forKey: "PreviousSearches")
+                    
+                    //alert the user that an error has occured
+                    let alert = UIAlertController(title: "Error", message: "Movie title not found, please try again." + errorMessage, preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                        //What happens once user clicks add item
+                    }
+                    
+                    alert.addAction(action)
+                    
+                    self!.present(alert, animated: true, completion: nil)
+                    print("Search error: " + errorMessage)
                 }
                 //if there's an error message, print it to the console
                 if !errorMessage.isEmpty {
                     
                     //remove the last search because it wasn't successful
-                    self!.last10Searches.removeLast()
+                    self!.last10Searches.removeFirst()
                     
                     //alert the user that an error has occured
                     let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
