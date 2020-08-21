@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class SearchViewController: UIViewController {
-
+    
     @IBOutlet weak var MovieTableView: UITableView!
     @IBOutlet weak var RecentSearchesTable: UITableView!
     
@@ -20,6 +20,9 @@ class SearchViewController: UIViewController {
     //save the searched movies & recent searches
     var movieArray = [Movie]()
     var last10Searches = [String]()
+    
+    var currentPage = 0
+    var lastSearch = ""
     
     //make a new movieManager to query the site
     let movieManager = MovieManager()
@@ -42,6 +45,32 @@ class SearchViewController: UIViewController {
         self.RecentSearchesTable.isHidden = !RecentSearchesTable.isHidden
         self.MovieTableView.isHidden = !MovieTableView.isHidden
     }
+    
+    /**
+     * Updates the user's list of recent searches
+     */
+    func updateLastSearches(search: String)
+    {
+        lastSearch = search
+        //if the user searched this before, move it to the front
+        if(last10Searches.contains(search)) {
+            
+            last10Searches.remove(at: last10Searches.firstIndex(of: search)!)
+            last10Searches.insert(search, at: 0)
+            
+        } //else, if they haven't searched 10 times
+        else if last10Searches.count < 10 {
+            
+            last10Searches.insert(search, at: 0)
+            
+        } else { //otherwise, they've searched 10+ times and we need to cycle the earliest search out
+            last10Searches.removeLast()
+            last10Searches.insert(search, at: 0)
+        }
+        
+        //update user defaults
+        defaults.set(last10Searches, forKey: "PreviousSearches")
+    }
 }
 
 //MARK: Tableview Data Source Methods -
@@ -57,6 +86,42 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == movieArray.count {
+            currentPage += 1
+            //get the search results for the query
+            if currentPage <= movieManager.getMaxPages() {
+                movieManager.getSearchResults(searchTerm: lastSearch, page: currentPage) { [weak self] results, errorMessage in
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    
+                    if let results = results {
+                        self?.movieArray.append(contentsOf: results)
+                        self?.MovieTableView.reloadData()
+                        self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
+                    }
+                    //if there's an error message, print it to the console
+                    if !errorMessage.isEmpty {
+                        
+                        //remove the last search because it wasn't successful
+                        self!.last10Searches.removeLast()
+                        
+                        //alert the user that an error has occured
+                        let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
+                        
+                        let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                            //What happens once user clicks add item
+                        }
+                        
+                        alert.addAction(action)
+                        
+                        self!.present(alert, animated: true, completion: nil)
+                        print("Search error: " + errorMessage)
+                    }
+                }
+            }
+        }
+    }
+    
     //Constructs each cell in the table
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -67,15 +132,16 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             cell.title.text = movieArray[indexPath.row].title
             cell.releaseDate.text = movieArray[indexPath.row].releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
             cell.overview.text = movieArray[indexPath.row].overview
-            
-            let url = self.movieArray[indexPath.row].poster
-            cell.poster.load(url: URL(string: url!)!)
-            
+            if(self.movieArray[indexPath.row].poster != nil)
+            {
+                let url = self.movieArray[indexPath.row].poster
+                cell.poster.load(url: URL(string: url!)!)
+            }
             return cell
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "RecentSearchesCell", for: indexPath) as! RecentSearchesTableCell
-
+            
             cell.searchTerm.text = last10Searches[indexPath.row]
             
             return cell
@@ -83,7 +149,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
+        
         if(tableView == self.RecentSearchesTable)
         {
             //if the search bar is the current first responder resign
@@ -93,10 +159,10 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             }
             
             let search = last10Searches[indexPath.row]
+            lastSearch = search
             
-            //Move selected search to the front of the array
-            last10Searches.remove(at: indexPath.row)
-            last10Searches.insert(search, at: 0)
+            //Update list of recent searches
+            updateLastSearches(search: search)
             
             //update UserDefaults
             defaults.set(last10Searches, forKey: "PreviousSearches")
@@ -106,33 +172,34 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
             
             //search with the selected query
             movieManager.getSearchResults(searchTerm: search) { [weak self] results, errorMessage in
-                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
-               
-                     if let results = results {
-                       self?.movieArray = results
-                       self?.MovieTableView.reloadData()
-                       self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
-                     }
-                     //if there's an error message, print it to the console
-                     if !errorMessage.isEmpty {
-                        
-                        //remove the last search because it wasn't successful
-                        self!.last10Searches.removeLast()
-                        //alert the user
-                        
-                        let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
-                        
-                        let action = UIAlertAction(title: "OK", style: .default) { (action) in
-                            //What happens once user clicks add item
-                        }
-                        
-                        alert.addAction(action)
-                        
-                        self!.present(alert, animated: true, completion: nil)
-                       print("Search error: " + errorMessage)
-                     }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                if let results = results {
+                    self?.movieArray = results
+                    self?.MovieTableView.reloadData()
+                    self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
+                    self?.currentPage = 1
+                }
+                //if there's an error message, print it to the console
+                if !errorMessage.isEmpty {
+                    
+                    //remove the last search because it wasn't successful
+                    self!.last10Searches.removeLast()
+                    //alert the user
+                    
+                    let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                        //What happens once user clicks add item
+                    }
+                    
+                    alert.addAction(action)
+                    
+                    self!.present(alert, animated: true, completion: nil)
+                    print("Search error: " + errorMessage)
+                }
                 //self!.toggleView()
-                   }
+            }
         } else {
             print("Selected a cell in MovieTable")
         }
@@ -155,7 +222,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         toggleView()
         
-         MovieTableView.reloadData()
+        MovieTableView.reloadData()
     }
     
     //When the user clicks the "Search" button
@@ -167,58 +234,39 @@ extension SearchViewController: UISearchBarDelegate {
         //verify that the search text isn't empty
         if searchBar.text!.count > 0 {
             
+            //update the list of recent user searches
             let search = searchBar.text!
-            
-            //if the user searched this before, move it to the front
-            if(last10Searches.contains(search))
-            {
-                last10Searches.remove(at: last10Searches.firstIndex(of: search)!)
-                last10Searches.insert(search, at: 0)
-                
-                //update user defaults
-                defaults.set(last10Searches, forKey: "PreviousSearches")
-            } //else, if they haven't searched 10 times
-            else if last10Searches.count < 10 {
-                last10Searches.insert(search, at: 0)
-                
-                //update user defaults
-                defaults.set(last10Searches, forKey: "PreviousSearches")
-            } else { //otherwise, they've searched 10+ times and we need to cycle the earliest search out
-                last10Searches.removeLast()
-                last10Searches.insert(search, at: 0)
-                
-                //update user defaults
-                defaults.set(last10Searches, forKey: "PreviousSearches")
-            }
+            updateLastSearches(search: search)
             
             //get the search results for the query
-            movieManager.getSearchResults(searchTerm: search) { [weak self] results, errorMessage in
-                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
-               
-                     if let results = results {
-                       self?.movieArray = results
-                       self?.MovieTableView.reloadData()
-                       self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
-                     }
-                     //if there's an error message, print it to the console
-                     if !errorMessage.isEmpty {
-                        
-                        //remove the last search because it wasn't successful
-                        self!.last10Searches.removeLast()
-                        
-                        //alert the user that an error has occured
-                        let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
-                        
-                        let action = UIAlertAction(title: "OK", style: .default) { (action) in
-                            //What happens once user clicks add item
-                        }
-                        
-                        alert.addAction(action)
-                        
-                        self!.present(alert, animated: true, completion: nil)
-                       print("Search error: " + errorMessage)
-                     }
-                   }
+            movieManager.getSearchResults(searchTerm: search, page: currentPage) { [weak self] results, errorMessage in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                if let results = results {
+                    self?.movieArray = results
+                    self?.MovieTableView.reloadData()
+                    self?.MovieTableView.setContentOffset(CGPoint.zero, animated: false)
+                    self?.currentPage = 1
+                }
+                //if there's an error message, print it to the console
+                if !errorMessage.isEmpty {
+                    
+                    //remove the last search because it wasn't successful
+                    self!.last10Searches.removeLast()
+                    
+                    //alert the user that an error has occured
+                    let alert = UIAlertController(title: "Error", message: "Search error: " + errorMessage, preferredStyle: .alert)
+                    
+                    let action = UIAlertAction(title: "OK", style: .default) { (action) in
+                        //What happens once user clicks add item
+                    }
+                    
+                    alert.addAction(action)
+                    
+                    self!.present(alert, animated: true, completion: nil)
+                    print("Search error: " + errorMessage)
+                }
+            }
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
@@ -267,13 +315,12 @@ extension Date
 extension UIView {
     var firstResponder: UIView? {
         guard !isFirstResponder else { return self }
-
+        
         for subview in subviews {
             if let firstResponder = subview.firstResponder {
                 return firstResponder
             }
         }
-
         return nil
     }
 }
