@@ -212,14 +212,13 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     private func scrollToTop() {
-        // 1
+        
         let topRow = IndexPath(row: 0,
                                section: 0)
-                               
-        // 2
+        
         self.MovieTableView.scrollToRow(at: topRow,
-                                   at: .top,
-                                   animated: false)
+                                        at: .top,
+                                        animated: false)
     }
 }
 

@@ -72,7 +72,6 @@ class MovieManager: UITableViewController {
                     }
                 }
             }
-            
             dataTask?.resume()
         }
     }
