@@ -203,10 +203,8 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                     alert.addAction(action)
                     
                     self!.present(alert, animated: true, completion: nil)
-                    print("Search error: " + errorMessage)
+                    print("Search error: ")
                 }
-                
-                
             }
         } else {
             print("Selected a cell in MovieTable")

@@ -96,7 +96,7 @@
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dJD-Zv-Wx2" userLabel="RecentSearchesTable">
-                                <rect key="frame" x="0.0" y="144" width="414" height="718"/>
+                                <rect key="frame" x="0.0" y="144" width="414" height="700"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecentSearchesCell" id="jDw-Ga-Z6W" userLabel="RecentSearchesTableCell" customClass="RecentSearchesTableCell" customModule="MovieApp" customModuleProvider="target">
@@ -135,7 +135,7 @@
                         <constraints>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="trailing" secondItem="dJD-Zv-Wx2" secondAttribute="trailing" id="2e0-by-uyZ"/>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="leading" secondItem="irA-F2-heL" secondAttribute="leading" id="ML0-Lj-9ZP"/>
-                            <constraint firstItem="dJD-Zv-Wx2" firstAttribute="bottom" secondItem="irA-F2-heL" secondAttribute="bottom" id="Mvd-8V-aBR"/>
+                            <constraint firstItem="dJD-Zv-Wx2" firstAttribute="bottom" secondItem="irA-F2-heL" secondAttribute="bottom" constant="-18" id="Mvd-8V-aBR"/>
                             <constraint firstItem="dJD-Zv-Wx2" firstAttribute="trailing" secondItem="irA-F2-heL" secondAttribute="trailing" id="Pqq-Qy-kAi"/>
                             <constraint firstItem="dJD-Zv-Wx2" firstAttribute="top" secondItem="irA-F2-heL" secondAttribute="top" id="SMq-Je-Bes"/>
                             <constraint firstItem="5Er-t4-6m1" firstAttribute="top" secondItem="5mh-H5-NyM" secondAttribute="top" id="be3-5v-MVt"/>
