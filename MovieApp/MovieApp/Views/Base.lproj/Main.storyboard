@@ -166,7 +166,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wMG-iA-89N" userLabel="Poster">
                                 <rect key="frame" x="161" y="126" width="92" height="185"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1e-Q7-tpo" userLabel="Name">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i1e-Q7-tpo" userLabel="MovieTitle">
                                 <rect key="frame" x="132" y="349" width="150" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="REe-kH-8gR"/>
@@ -215,10 +215,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="uV1-4X-PM8"/>
                     <connections>
+                        <outlet property="MovieTitle" destination="i1e-Q7-tpo" id="i9r-pP-V9L"/>
                         <outlet property="Overview" destination="xEs-EE-iRn" id="YoK-TO-Zi6"/>
                         <outlet property="Poster" destination="wMG-iA-89N" id="uYY-e5-3us"/>
                         <outlet property="ReleaseDate" destination="pmd-98-Fxi" id="ZRw-49-Jri"/>
-                        <outlet property="Title" destination="i1e-Q7-tpo" id="TWE-ff-cOa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VzQ-ym-yia" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

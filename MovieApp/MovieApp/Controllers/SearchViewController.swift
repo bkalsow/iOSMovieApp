@@ -208,7 +208,7 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
         } else {
             performSegue(withIdentifier: "GoToMovieDetail", sender: self)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
+        //tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
