@@ -15,16 +15,18 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var Overview: UILabel!
     @IBOutlet weak var Poster: UIImageView!
     
-    var selectedMovie: Movie? {
-        didSet {
-            MovieTitle.text = selectedMovie?.title
-            ReleaseDate.text = selectedMovie?.releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
-            Overview.text = selectedMovie?.overview
-            Poster?.load(url: URL(string: (selectedMovie?.poster)!)!)
-        }
-    }
+    var selectedMovie: Movie?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        MovieTitle.text = selectedMovie?.title
+        MovieTitle.textAlignment = NSTextAlignment.center
+        ReleaseDate.text = selectedMovie?.releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
+        ReleaseDate.textAlignment = NSTextAlignment.center
+        Overview.text = selectedMovie?.overview
+        Overview.numberOfLines = 0
+        Overview.textAlignment = NSTextAlignment.center
+        Poster?.load(url: URL(string: (selectedMovie?.poster)!)!)
     }
 }
