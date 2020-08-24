@@ -17,7 +17,6 @@ class MovieDetailViewController: UIViewController {
     
     var selectedMovie: Movie? {
         didSet {
-            print(selectedMovie?.title as Any)
             loadData()
         }
     }
@@ -33,21 +32,11 @@ class MovieDetailViewController: UIViewController {
         } else {
             Poster?.image = UIImage(named: "ImageNotFound")
         } */
-        guard let title = selectedMovie?.title else {
-            return
-        }
-        guard let release = selectedMovie?.releaseDate else {
-            return
-        }
-        guard let overview = selectedMovie?.overview else {
-            return
-        }
-        guard let posterURL = selectedMovie?.poster else {
-                return
-        }
-        Name.text = title
-        ReleaseDate.text = release.toString(dateFormat: "MMMM dd, yyyy")
-        Overview.text = overview
-        Poster?.load(url: URL(string: posterURL)!)
+        let movie = selectedMovie!
+        print(movie)
+        Name.text = movie.title!
+        ReleaseDate.text = movie.releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
+        Overview.text = movie.overview
+        Poster?.load(url: URL(string: (movie.poster!))!)
     }
 }
