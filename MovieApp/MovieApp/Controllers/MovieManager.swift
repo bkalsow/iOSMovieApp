@@ -51,7 +51,6 @@ class MovieManager: UITableViewController {
                 return
             }
             
-            print(url)
             dataTask = defaultSession.dataTask(with: url) { [weak self] data, response, error in
                 defer {
                     self?.dataTask = nil

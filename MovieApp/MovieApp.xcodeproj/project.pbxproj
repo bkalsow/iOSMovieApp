@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD313DCA24F3E62C0064DE17 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD313DC924F3E62C0064DE17 /* MovieDetailViewController.swift */; };
 		CDB318D924EC2038006B43EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318D824EC2038006B43EB /* AppDelegate.swift */; };
 		CDB318DB24EC2038006B43EB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB318DA24EC2038006B43EB /* SceneDelegate.swift */; };
 		CDB318E024EC2038006B43EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CDB318DE24EC2038006B43EB /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CD313DC924F3E62C0064DE17 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
 		CDB318D524EC2038006B43EB /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDB318D824EC2038006B43EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CDB318DA24EC2038006B43EB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				CDB318EF24EC20AE006B43EB /* SearchViewController.swift */,
 				CDB318FA24EC3563006B43EB /* MovieManager.swift */,
+				CD313DC924F3E62C0064DE17 /* MovieDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				CDB318F524EC264B006B43EB /* MovieTableViewCell.swift in Sources */,
 				CDB318D924EC2038006B43EB /* AppDelegate.swift in Sources */,
 				CDB318FB24EC3563006B43EB /* MovieManager.swift in Sources */,
+				CD313DCA24F3E62C0064DE17 /* MovieDetailViewController.swift in Sources */,
 				CDB3190524EEA19E006B43EB /* MovieApp.xcdatamodeld in Sources */,
 				CDB318F024EC20AE006B43EB /* SearchViewController.swift in Sources */,
 				CDB318DB24EC2038006B43EB /* SceneDelegate.swift in Sources */,

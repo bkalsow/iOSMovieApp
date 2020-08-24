@@ -206,9 +206,18 @@ extension SearchViewController : UITableViewDelegate, UITableViewDataSource {
                 }
             }
         } else {
-            print("Selected a cell in MovieTable")
+            performSegue(withIdentifier: "GoToMovieDetail", sender: self)
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
+        let destinationVC = segue.destination as! MovieDetailViewController
+        
+        if let indexPath = MovieTableView.indexPathForSelectedRow {
+            destinationVC.selectedMovie = movieArray[indexPath.row]
+        }
     }
     
     private func scrollToTop() {
