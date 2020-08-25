@@ -15,11 +15,14 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var Overview: UILabel!
     @IBOutlet weak var Poster: UIImageView!
     
+    //Object to be passed from SearchViewController
     var selectedMovie: Movie?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //when loading the view, set the required information
+        //from the movie passed from SearchViewController
         MovieTitle.text = selectedMovie?.title
         MovieTitle.textAlignment = NSTextAlignment.center
         ReleaseDate.text = selectedMovie?.releaseDate?.toString(dateFormat: "MMMM dd, yyyy")
